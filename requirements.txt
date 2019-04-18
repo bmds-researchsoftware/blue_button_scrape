@@ -1,7 +1,13 @@
+Click==7.0
+Flask==1.0.2
 get==2019.4.13
+itsdangerous==1.1.0
+Jinja2==2.10.1
+MarkupSafe==1.1.1
 post==2019.4.13
 public==2019.4.13
 query-string==2019.4.13
 request==2019.4.13
 selenium==3.141.0
 urllib3==1.24.2
+Werkzeug==0.15.2
