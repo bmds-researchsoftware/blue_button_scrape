@@ -1,1 +1,1 @@
-https://sandbox.bluebutton.cms.gov/v1/o/authorize/?client_id=c3IP1q7AktCVRKQa7QpwRXI7Hhqo8izlgtx6UsGD&redirect_uri=http://localhost:5000/get_auth_code&response_type=code
+https://sandbox.bluebutton.cms.gov/v1/o/authorize/?client_id=c3IP1q7AktCVRKQa7QpwRXI7Hhqo8izlgtx6UsGD&redirect_uri=http://localhost:5000/get_token&response_type=code
