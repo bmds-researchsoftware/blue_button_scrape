@@ -19,27 +19,35 @@ COVERAGE_EXTENSION = '/v1/fhir/Coverage/?beneficiary='
 def get_patient_data():
     auth_code = request.args.get('code')
     if auth_code:
+        # POST request to get access token and patient ID
         post_url = URL_BASE + TOKEN_EXTENSION
         post_payload = {
                 'code': auth_code,
                 'grant_type': 'authorization_code',
                 'redirect_uri': 'http://localhost:5000/get_patient_data' }
-        token_response = requests.post(post_url, auth=(CLIENT_ID, CLIENT_SECRET), data=post_payload)
-        response_json = json.loads(token_response.text) 
+        response_json = requests.post(post_url, auth=(CLIENT_ID, CLIENT_SECRET), data=post_payload).json()
         access_token = response_json['access_token']
         patient_id = response_json['patient']
         headers = {'Authorization': 'Bearer ' + access_token}
         file_name_ending = '_' + patient_id + '.json'
+
+        # GET patient data 
         patient_response = requests.get(URL_BASE + PATIENT_EXTENSION, headers=headers)
         patient_data = patient_response.json()
         with open('output/patient_data' + file_name_ending, 'w') as outfile:
             json.dump(patient_data, outfile, indent=4)
+
+
+        # GET EOB data 
         eob_response = requests.get(URL_BASE + EOB_EXTENSION, headers=headers)
         eob_data = eob_response.json()
         with open('output/eob_data' + file_name_ending, 'w') as outfile:
             json.dump(eob_data, outfile, indent=4)
+
+        # GET coverage data 
         coverage_response = requests.get(URL_BASE + COVERAGE_EXTENSION, headers=headers)
         coverage_data = coverage_response.json()
         with open('output/coverage_data' + file_name_ending, 'w') as outfile:
             json.dump(coverage_data, outfile, indent=4)
+
         return 'saved patient data for ' + patient_id
