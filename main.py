@@ -32,20 +32,20 @@ def get_patient_data():
         file_name_ending = '_' + patient_id + '.json'
 
         # GET patient data 
-        patient_response = requests.get(URL_BASE + PATIENT_EXTENSION, headers=headers)
+        patient_response = requests.get(URL_BASE + PATIENT_EXTENSION + patient_id, headers=headers)
         patient_data = patient_response.json()
         with open('output/patient_data' + file_name_ending, 'w') as outfile:
             json.dump(patient_data, outfile, indent=4)
 
 
         # GET EOB data 
-        eob_response = requests.get(URL_BASE + EOB_EXTENSION, headers=headers)
+        eob_response = requests.get(URL_BASE + EOB_EXTENSION + patient_id, headers=headers)
         eob_data = eob_response.json()
         with open('output/eob_data' + file_name_ending, 'w') as outfile:
             json.dump(eob_data, outfile, indent=4)
 
         # GET coverage data 
-        coverage_response = requests.get(URL_BASE + COVERAGE_EXTENSION, headers=headers)
+        coverage_response = requests.get(URL_BASE + COVERAGE_EXTENSION + patient_id, headers=headers)
         coverage_data = coverage_response.json()
         with open('output/coverage_data' + file_name_ending, 'w') as outfile:
             json.dump(coverage_data, outfile, indent=4)
