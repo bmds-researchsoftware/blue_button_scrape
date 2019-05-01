@@ -3,10 +3,9 @@ from flask import request
 import requests
 import json
 import csv
-import pandas as pd
-import synthetic_users
 app = Flask(__name__)
 
+# Constants
 CLIENT_ID = 'c3IP1q7AktCVRKQa7QpwRXI7Hhqo8izlgtx6UsGD'
 CLIENT_SECRET = 'bqJucbcrMhD3oKYOkSDsMBlhOX4oLMUCfYPKX8Jq8nN3d6IMjRixIkSLqbB7nEwCQpVzcVVqeoQGSWJJ8OYGfXgwrkFNFhnvZnGsBGVuWrWESlFxT4zQcAXFy63jvKX7'
 URL_BASE = 'https://sandbox.bluebutton.cms.gov'
@@ -15,15 +14,16 @@ PATIENT_EXTENSION = '/v1/fhir/Patient/'
 EOB_EXTENSION = '/v1/fhir/ExplanationOfBenefit/?patient='
 COVERAGE_EXTENSION = '/v1/fhir/Coverage/?beneficiary='
 
-@app.route('/get_token')
-def get_token():
+# Must match redirect_uri in project configuration at bluebutton.cms.gov
+@app.route('/get_patient_data')
+def get_patient_data():
     auth_code = request.args.get('code')
     if auth_code:
         post_url = URL_BASE + TOKEN_EXTENSION
         post_payload = {
                 'code': auth_code,
                 'grant_type': 'authorization_code',
-                'redirect_uri': 'http://localhost:5000/get_token' }
+                'redirect_uri': 'http://localhost:5000/get_patient_data' }
         token_response = requests.post(post_url, auth=(CLIENT_ID, CLIENT_SECRET), data=post_payload)
         response_json = json.loads(token_response.text) 
         access_token = response_json['access_token']
